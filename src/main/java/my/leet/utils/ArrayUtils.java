@@ -20,6 +20,18 @@ public class ArrayUtils {
         }
     }
 
+    public static void printTransposeArray(int[][] array) {
+        int m = array.length;
+        int n = array[0].length;
+        int[][] t = new int[n][m];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                t[i][j] = array[j][i];
+            }
+        }
+        printArray(t);
+    }
+
     public static void printArray(char[] array) {
         if (array.length>0) {
             System.out.printf("[%c", array[0]);
