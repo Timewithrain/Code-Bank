@@ -1,5 +1,7 @@
 package my.leet;
 
+import my.leet.utils.ArrayUtils;
+
 /** 213. 打家劫舍II */
 public class HouseRobberII {
 
@@ -26,8 +28,33 @@ public class HouseRobberII {
         return Math.max(dp1[l-1], dp2[l-2]);
     }
 
+    /** 198.打家劫舍I标准解法（动态规划） */
+    static int rob(int[] nums, int i, int j) {
+        if (i>j) return 0;
+        if (i==j) return nums[i];
+        int l = j - i + 1;
+        if (l==2) return Math.max(nums[i], nums[j]);
+        int[] dp = new int[l];
+        dp[0] = nums[i];
+        dp[1] = Math.max(nums[i], nums[i+1]);
+        for (int k = 2; k < l; k++) {
+            dp[k] = Math.max(dp[k-1], dp[k-2]+nums[i+k]);
+        }
+        return dp[l-1];
+    }
+
+    static int func2(int[] nums) {
+        int l = nums.length;
+        if (l==1) return nums[0];
+        if (l==2) return Math.max(nums[0], nums[1]);
+        int a = rob(nums, 0, l-2);  // 由于首尾不能同时选中，因此分两种状态，选择首元素则不选尾元素
+        int b = rob(nums, 1, l-1);  //  选择尾元素则不选首元素
+        return Math.max(a, b);
+    }
+
     public static void main(String[] args) {
-        int[] nums = {4,1,2,7,5,3,1}; // {1,3,1,3,100}; // {2,7,9,3,1}; // {1,2,3}; // {1,2,3,1}; //
+        int[] nums = {2,7,9,3,1}; // {1,3,1,3,100}; // {4,1,2,7,5,3,1}; // {1,2,3}; // {1,2,3,1}; //
         System.out.println(func(nums));
+        System.out.println(func2(nums));
     }
 }
