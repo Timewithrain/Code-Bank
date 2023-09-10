@@ -28,17 +28,17 @@ public class LongestIncreasingSubsequence {
         int l = i;
         int r = j;
         int mid = (l + r) / 2;
+        int pos = mid;
         while (l <= r) {
             mid = (l + r) / 2;
-            if (nums[mid] == target) {
-                return mid;
-            } else if (nums[mid] < target) {
+            if (nums[mid] < target) {
                 l = mid + 1;
             } else {
+                pos = mid;  // 保证pos是最小的满足nums[pos] >= target的下标
                 r = mid - 1;
             }
         }
-        return mid;
+        return pos;
     }
 
     static int func2(int[] nums) {
@@ -53,14 +53,12 @@ public class LongestIncreasingSubsequence {
                 int idx = binarySearch(d, 0, len-1, nums[i]);
                 d[idx] = nums[i];
             }
-            ArrayUtils.printArray(d);
         }
         return len;
     }
 
     public static void main(String[] args) {
-        int[] nums = {3,5,6,2,5,4,19,5,6,7,12}; // {1,3,6,7,9,4,10,5,6}; // {0,1,0,3,2,3}; // {10,9,2,5,3,7,101,18}; // {10,9,2,5,3,4}; //
-        System.out.println(func(nums));
+        int[] nums = {10,9,2,5,3,4}; // {0,1,0,3,2,3}; // {1,3,6,7,9,4,10,5,6}; // {3,5,6,2,5,4,19,5,6,7,12}; // {10,9,2,5,3,7,101,18}; //
         System.out.println(func2(nums));
     }
 }
