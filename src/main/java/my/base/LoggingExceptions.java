@@ -1,7 +1,5 @@
 package my.base;
 
-import javax.xml.stream.FactoryConfigurationError;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.logging.Logger;
