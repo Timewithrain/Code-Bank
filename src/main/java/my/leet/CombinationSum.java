@@ -8,6 +8,8 @@ import java.util.List;
  */
 public class CombinationSum {
 
+    /**********************************  First Try  ****************************/
+
     static void f(int[] candidates, int pos, int target, int sum, List<Integer> tmp, List<List<Integer>> ans) {
         if (sum > target) {
             return;
@@ -30,22 +32,16 @@ public class CombinationSum {
         return ans;
     }
 
-    /** 2023.7.18 */
-    static void firstTry() {
-        int[] candidates = {2,3,6,7};
-        int target = 7;
-        List<List<Integer>> ans = func(candidates, target);
-        System.out.println(ans);
-    }
+    /**********************************  Second Try  ****************************/
 
     static void f2(int[] candidates, int target, int pos, List<Integer> tmp, List<List<Integer>> ans) {
         if (target==0) {
             ans.add(new ArrayList<>(tmp));
-        return;
+            return;
         } else if (target<0) {
             return;
         }
-            for (int i = pos; i < candidates.length; i++) {
+        for (int i = pos; i < candidates.length; i++) {
             tmp.add(candidates[i]);
             f2(candidates, target-candidates[i], i, tmp, ans);
             tmp.remove(tmp.size()-1);
@@ -59,16 +55,42 @@ public class CombinationSum {
         return list;
     }
 
-    /** 2023.7.25 */
-    static void secondTry() {
-        int[] candidates = {2,3,6,7};
-        int target = 7;
-        List<List<Integer>> ans = func2(candidates, target);
-        System.out.println(ans);
+    /**********************************  Third Try  ****************************/
+
+    static void dfs(int[] candidates, int target, int pos, ArrayList<Integer> tmp, int sum, List<List<Integer>> ans) {
+        if (sum == target) {
+            ans.add(new ArrayList<>(tmp));
+            return;
+        }
+        if (pos==candidates.length || sum > target) return;
+        int cur = 0;
+        ArrayList<Integer> curList = new ArrayList<>();
+        dfs(candidates, target, pos+1, tmp, sum, ans);
+        while (cur <= target) {
+            cur += candidates[pos];
+            tmp.add(candidates[pos]);
+            curList.add(candidates[pos]);
+            dfs(candidates, target, pos+1, tmp, sum+cur, ans);
+        }
+        tmp.removeAll(curList);
+    }
+
+    static public List<List<Integer>> func3(int[] candidates, int target) {
+        List<List<Integer>> ans = new ArrayList<>();
+        ArrayList<Integer> tmp = new ArrayList<>();
+        dfs(candidates, target, 0, tmp, 0, ans);
+        return ans;
     }
 
     public static void main(String[] args) {
-//        firstTry();
-        secondTry();
+        int[] candidates = {2,3,6,7};
+        int target = 7;
+        /** 2023.7.18 */
+//        List<List<Integer>> ans = func(candidates, target);
+        /** 2023.7.25 */
+//        List<List<Integer>> ans = func2(candidates, target);
+        /** 2023.9.16 */
+        List<List<Integer>> ans = func3(candidates, target);
+        System.out.println(ans);
     }
 }

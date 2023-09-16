@@ -54,16 +54,17 @@ public class RoadLight {
         return max;
     }
 
+    /** 判断当前长度间隔的路灯位置是否满足大于等于k的条件，mid为长度 */
     static boolean isMatch(int[] road, int k, int mid) {
         int last = road[0];
         int cnt = 1;
         for (int i = 1; i < road.length; i++) {
-            if (road[i] - last >= mid) {
+            if (road[i] - last >= mid) {  // 判断相邻间隔是否大于等于mid
                 last = road[i];
-                cnt++;
+                cnt++;  // 若大于等距离则计数加1
             }
         }
-        return cnt>=k;
+        return cnt>=k;  // 判断以mid为间隔的路灯数量是否大于等于k
     }
 
     static int func3(int[] road, int k) {
@@ -71,7 +72,7 @@ public class RoadLight {
         Arrays.sort(road);
         int left = 0;
         int right = road[n-1] - road[0];
-        while (left <= right) {
+        while (left <= right) { // 二分法查找所有可能的间隔长度
             int mid = (left + right) / 2;
             if (isMatch(road, k, mid)) {
                 left = mid + 1;
