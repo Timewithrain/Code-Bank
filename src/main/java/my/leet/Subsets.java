@@ -22,6 +22,8 @@ public class Subsets {
     }
 
     public static void main(String[] args){
-
+        int[] nums = {1,2,3};
+        List<List<Integer>> ans = func(nums);  // 动态规划
+        System.out.println(ans);
     }
 }
