@@ -39,9 +39,29 @@ public class SpiralMatrixII {
         return ans;
     }
 
+    /** 四个方向旋转遍历 */
+    static int[][] func2(int n) {
+        int[][] ans = new int[n][n];
+        int up = 0, bottom = n - 1;
+        int left = 0, right = n -1;
+        int cur = 1;
+        while (cur <= n*n) {
+            for (int i = left; i <= right; i++) ans[up][i] = cur++;
+            if (++up > bottom) break;
+            for (int i = up; i <= bottom; i++) ans[i][right] = cur++;
+            if (--right < left) break;
+            for (int i = right; i >= left; i--) ans[bottom][i] = cur++;
+            if (--bottom < up) break;
+            for (int i = bottom; i >= up; i--) ans[i][left] = cur++;
+            if (++left > right) break;
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         int n = 5;
-        int[][] ans = func(n);
+//        int[][] ans = func(n);
+        int[][] ans = func2(n);
         ArrayUtils.printArray(ans);
     }
 }
