@@ -47,6 +47,13 @@ public class SwapNodesInPairs {
         return lst.get(0);
     }
 
+    static ListNode func2(ListNode head) {
+        if (head==null || head.next==null) return head;
+        ListNode tmp = head.next;
+        head.next = func2(tmp.next);
+        tmp.next = head;
+        return tmp;
+    }
 
     public static void main(String[] args) {
         int[] nums = {1,2,3,4,5,6,7};
