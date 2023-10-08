@@ -2,7 +2,7 @@ package my.leet;
 
 import my.leet.utils.ListNode;
 
-/** 2. 两数之和 */
+/** 2. 两数相加 */
 public class AddTwoNumbers {
 
     /** 新构造一个链表存储结果 */
