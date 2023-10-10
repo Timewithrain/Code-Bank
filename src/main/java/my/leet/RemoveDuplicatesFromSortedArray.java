@@ -19,6 +19,21 @@ public class RemoveDuplicatesFromSortedArray {
         return ans+1;
     }
 
+    /** 标准解法：双指针法 */
+    static int func2(int[] nums) {
+        int l = nums.length;
+        if (l==1) return 1;
+        int p = 0, q = 1;
+        while (q < l) {
+            if (nums[p] != nums[q]) {
+                nums[p+1] = nums[q];
+                p++;
+            }
+            q++;
+        }
+        return p+1;
+    }
+
     public static void main(String[] args) {
 
     }
