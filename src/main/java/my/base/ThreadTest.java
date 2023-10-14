@@ -1,5 +1,6 @@
 package my.base;
 
+import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
@@ -86,8 +87,20 @@ public class ThreadTest {
         System.out.println(task2.get());
     }
 
+    static void test4() {
+        Thread t = new Thread(new FutureTask<>(new Callable<Integer>() {
+            @Override
+            public Integer call() {
+                System.out.println("hello");
+                return 0;
+            }
+        }));
+        t.start();
+
+    }
+
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        test1();
+//        test1();
 //        test2();
         WithInner wi = new WithInner();
 //        test3();
