@@ -1,5 +1,8 @@
 package my.leet;
 
+import java.util.HashMap;
+
+/** 13. 罗马数字转整数 */
 public class RomanToInteger {
 
     static int func(String s) {
@@ -49,9 +52,29 @@ public class RomanToInteger {
         return ans;
     }
 
+    static int func2(String s) {
+        int ans = 0;
+        HashMap<Character, Integer> map = new HashMap<>();
+        map.put('I', 1);map.put('V', 5);
+        map.put('X', 10);map.put('L', 50);
+        map.put('C', 100);map.put('D', 500);
+        map.put('M', 1000);
+        for (int i = 1; i < s.length(); i++) {
+            if (map.get(s.charAt(i)) <= map.get(s.charAt(i-1))) {
+                ans += map.get(s.charAt(i-1));
+            } else {
+                ans -= map.get(s.charAt(i-1));
+            }
+        }
+        ans += map.get(s.charAt(s.length()-1));
+        return ans;
+    }
+
     public static void main(String[] args) {
-        String s = "MCMXCIV"; // "LVIII";  // "IV"; // "III";  //
+        String s = "III";  // "IV"; // "MCMXCIV"; // "LVIII";  //
         int ans = func(s);
+        System.out.println(ans);
+        ans = func2(s);
         System.out.println(ans);
     }
 }
