@@ -44,6 +44,24 @@ public class ArrayUtils {
         System.out.println("]");
     }
 
+    public static void printArray(char[][] array) {
+        for (int i = 0; i < array.length; i++) {
+            printArray(array[i]);
+        }
+    }
+
+    public static void printArray(double[] array) {
+        if (array.length>0) {
+            System.out.printf("[%.5f", array[0]);
+        } else {
+            System.out.printf("[");
+        }
+        for (int i = 1; i < array.length; i++) {
+            System.out.printf(", %.5f", array[i]);
+        }
+        System.out.println("]");
+    }
+
     public static void printArray(Object[] array) {
         if (array.length>0) {
             System.out.printf("[%s ", array[0].toString());
