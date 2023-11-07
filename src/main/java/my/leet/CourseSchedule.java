@@ -2,6 +2,7 @@ package my.leet;
 
 import java.util.*;
 
+/** 207. 课程表 */
 public class CourseSchedule {
 
     static boolean hasCircle(int course, HashMap<Integer, ArrayList<Integer>> map, HashSet<Integer> set, boolean ans) {
@@ -62,7 +63,7 @@ public class CourseSchedule {
         return ans;
     }
 
-    /** dfs 超时 */
+    /** dfs优化 超时 */
     static boolean func2(int numCourses, int[][] prerequisites) {
         int l = prerequisites.length;
         int cnt = numCourses;
@@ -87,10 +88,43 @@ public class CourseSchedule {
         return cnt==numCourses;
     }
 
+    /** dfs 标准解法 */
+    static boolean dfs(int c, int[] allCourse, ArrayList<ArrayList<Integer>> graph, boolean ans) {
+        allCourse[c] = 1;
+        for (int preC : graph.get(c)) {
+            if (allCourse[preC] == 0) {
+                ans = ans || dfs(preC, allCourse, graph, ans);
+            } else if (allCourse[preC] == 1) {
+                return true;
+            }
+            if (ans) return ans;
+        }
+        allCourse[c] = 2;
+        return ans;
+    }
+
+    static boolean func3(int numCourses, int[][] prerequisites) {
+        boolean hasCircle = false;
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i < numCourses; i++) {
+            graph.add(new ArrayList<Integer>());
+        }
+        for (int i = 0; i < prerequisites.length; i++) {
+            graph.get(prerequisites[i][0]).add(prerequisites[i][1]);
+        }
+        int[] allCourse = new int[numCourses];
+        for (int i = 0; i < numCourses; i++) {
+            if (allCourse[i] != 0) continue;
+            hasCircle = dfs(i, allCourse, graph, hasCircle);
+            if (hasCircle) break;
+        }
+        return !hasCircle;
+    }
+
     public static void main(String[] args){
         int numCourses = 2;
         int[][] prerequisites = {{1,0}, {0,1}};
-        boolean ans = func(numCourses, prerequisites);
+        boolean ans = func3(numCourses, prerequisites);
         System.out.println(ans);
 
     }
