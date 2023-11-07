@@ -81,5 +81,23 @@ where (u.purchase_date>=p.start_date and u.purchase_date<=p.end_date) or u.purch
 group by p.product_id;
 
 
+-- 1148. 文章浏览I
+select distinct author_id as id
+from Views
+where author_id=viewer_id
+order by author_id asc;
+
+-- 183. 无效的推文
+select tweet_id
+from Tweets
+where char_length(content)>15;
+
+-- 1280. 学生们参加各科测试的次数 (使用join求笛卡尔积)
+select s1.student_id, s1.student_name, s2.subject_name, count(e.subject_name) attended_exams
+from Students s1 join Subjects s2 left join Examinations e
+    on s1.student_id=e.student_id and e.subject_name=s2.subject_name
+group by s1.student_id, s2.subject_name
+order by s1.student_id, s2.subject_name;
+
 
 
