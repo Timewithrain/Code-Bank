@@ -99,5 +99,31 @@ from Students s1 join Subjects s2 left join Examinations e
 group by s1.student_id, s2.subject_name
 order by s1.student_id, s2.subject_name;
 
+-- 1934. 确认率
+select sa.user_id, round(ifnull(sc.num, 0)/ifnull(sa.num, 1), 2) confirmation_rate
+from
+    (select s.user_id, count(*) num
+     from Signups s left join Confirmations c on s.user_id=c.user_id
+     group by s.user_id) sa
+        left join
+    (select  s.user_id, count(*) num
+     from Signups s left join Confirmations c on s.user_id=c.user_id
+     where c.action='confirmed'
+     group by s.user_id) sc
+    on sa.user_id=sc.user_id
+order by confirmation_rate asc;
+
+-- 1075. 项目员工I
+select p.project_id, round(avg(e.experience_years), 2) average_years
+from Project p inner join Employee e on p.employee_id=e.employee_id
+group by p.project_id;
+
+
+--
+select contest_id, 100*(round(count(user_id)/(select count(*) num from Users), 4)) percentage
+from Register
+group by contest_id
+order by percentage desc, r.contest_id asc;
+
 
 

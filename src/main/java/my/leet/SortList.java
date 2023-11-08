@@ -2,6 +2,10 @@ package my.leet;
 
 import my.leet.utils.ListNode;
 
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
 /** 148. 排序链表 */
 public class SortList {
 
@@ -43,10 +47,40 @@ public class SortList {
         return HEAD.next;
     }
 
+    /** 使用TreeMap排序+链表解决val重复+头尾指针 */
+    static ListNode func2(ListNode head) {
+        ListNode HEAD = new ListNode();
+        ListNode p = head, q = null;
+        TreeMap<Integer, ListNode[]> map = new TreeMap<>();
+        while (p!=null) {
+            q = p;
+            p = p.next;
+            if (map.containsKey(q.val)) {
+                ListNode[] tmp = map.get(q.val);  // 出现重复val的节点时，构造链表存储所有val相同的节点，使用数组存放链表的头尾指针
+                tmp[1].next = q;
+                q.next = null;
+                tmp[1] = q;
+            } else {
+                map.put(q.val, new ListNode[]{q, q});  // 未遇到重复val时，初始化数组，头尾指针指向同一个节点
+                q.next = null;
+            }
+        }
+        for (Map.Entry<Integer, ListNode[]> entry : map.entrySet()) {
+            if (HEAD.next == null) {
+                HEAD.next = entry.getValue()[0];
+            } else {
+                p.next = entry.getValue()[0];
+            }
+            p = entry.getValue()[1];
+        }
+        if (p != null) p.next = null;
+        return HEAD.next;
+    }
+
     public static void main(String[] args) {
-        int[] nums = {4,19,14,5,-3,1,8,5,11,15}; // {}; // {-1,5,3,4,0}; // {4,2,1,3}; //
+        int[] nums = {4,2,1,3}; // {-1,5,3,4,0}; // {}; // {4,19,14,5,-3,1,8,5,11,15}; //
         ListNode head = ListNode.constructLinkedList(nums);
-        head = func(head);
+        head = func2(head);
         ListNode.printLinkedList(head);
     }
 }
