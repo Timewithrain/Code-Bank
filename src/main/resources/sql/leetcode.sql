@@ -125,5 +125,17 @@ from Register
 group by contest_id
 order by percentage desc, r.contest_id asc;
 
+--
+select query_name, round(avg(position*rating), 2) quality, c.poor_query_percentage
+from Queries q
+inner join
+    (select query_name, a.num/b.num poor_query_percentage
+    from (select query_name, count(rating) num from Queries where rating<3 group by query_name) a
+    inner join (select query_name, count(rating) num from Queries group by query_name) b
+    on a.query_name=b.query_name) c
+on q.query_name=c.query_name
+group by query_name;
+
+
 
 
