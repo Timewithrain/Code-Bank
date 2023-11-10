@@ -119,22 +119,31 @@ from Project p inner join Employee e on p.employee_id=e.employee_id
 group by p.project_id;
 
 
---
+-- 1633. 各项赛事的用户注册率
 select contest_id, 100*(round(count(user_id)/(select count(*) num from Users), 4)) percentage
 from Register
 group by contest_id
 order by percentage desc, r.contest_id asc;
 
---
-select query_name, round(avg(position*rating), 2) quality, c.poor_query_percentage
+-- 1211. 查询结果的质量和占比
+select q.query_name, round(avg(q.rating/q.position), 2) quality, ifnull(c.poor_query_percentage, 0) poor_query_percentage
 from Queries q
-inner join
-    (select query_name, a.num/b.num poor_query_percentage
+left join
+    (select a.query_name, round(100*a.num/b.num, 2) poor_query_percentage
     from (select query_name, count(rating) num from Queries where rating<3 group by query_name) a
     inner join (select query_name, count(rating) num from Queries group by query_name) b
     on a.query_name=b.query_name) c
 on q.query_name=c.query_name
 group by query_name;
+
+-- 1193. 每月交易I (子查询+date_format函数)
+select tall.m month, tall.country, tall.cnt trans_count, ifnull(tapv.cnt, 0) approved_count,
+       tall.amt trans_total_amount, ifnull(tapv.amt, 0) approved_total_amount
+from (select country, date_format(trans_date, '%Y-%m') m, count(id) cnt, sum(amount) amt
+      from Transactions group by m, country) tall
+left join (select country, date_format(trans_date, '%Y-%m') m, count(id) cnt, sum(amount) amt
+           from Transactions where state='approved' group by m, country) tapv
+on tall.country=tapv.country and tall.m=tapv.m;
 
 
 

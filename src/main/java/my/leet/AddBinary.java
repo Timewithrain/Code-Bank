@@ -1,5 +1,6 @@
 package my.leet;
 
+/** 67. 二进制求和 */
 public class AddBinary {
 
     static String func(String a, String b) {
