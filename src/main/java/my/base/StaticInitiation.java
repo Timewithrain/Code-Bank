@@ -3,7 +3,8 @@ package my.base;
 public class StaticInitiation {
 
     public static void main(String[] args) {
-        new B();
+        //new B();
+        C.print();
     }
 }
 
@@ -26,6 +27,8 @@ class B extends A {
         System.out.println("static init B");
     }
 
+    C c = new C();
+
     {
         System.out.println("init B");
     }
@@ -33,4 +36,23 @@ class B extends A {
     public B () {
         System.out.println("B class");
     }
+}
+
+class C {
+    static {
+        System.out.println("static init C");
+    }
+
+    {
+        System.out.println("init C");
+    }
+
+    public C () {
+        System.out.println("C class");
+    }
+
+    static void print() {
+        System.out.println("print C");
+    }
+
 }
