@@ -1,4 +1,4 @@
-package my.exam.boss;
+package my.exam.boss.test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
