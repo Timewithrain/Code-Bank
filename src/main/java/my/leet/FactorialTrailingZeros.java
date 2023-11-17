@@ -1,5 +1,7 @@
 package my.leet;
 
+import java.util.concurrent.ArrayBlockingQueue;
+
 /** 173. 阶乘后的零 */
 public class FactorialTrailingZeros {
 
@@ -45,11 +47,23 @@ public class FactorialTrailingZeros {
         return ans;
     }
 
+    /** 标准解法 */
+    static int func3(int n) {
+        int count = 0;
+        while (n > 0) {
+            n /= 5;
+            count += n;
+        }
+        return count;
+    }
+
     public static void main(String[] args) {
-        int n = 30; // 6;
+        int n = 25; // 30; // 6;
         int ans = func(n);
         System.out.println(ans);
         ans = func2(n);
+        System.out.println(ans);
+        ans = func3(n);
         System.out.println(ans);
     }
 }
