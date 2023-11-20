@@ -2,6 +2,7 @@ package my.leet;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.TreeSet;
 
 
 /** 128. 最长连续序列 */
@@ -40,6 +41,56 @@ public class LongestConsecutiveSequence {
         }
         for (int c : count.values()) {
             ans = Math.max(ans, c);
+        }
+        return ans;
+    }
+
+    /** TreeMap 实现O(nlogn) */
+    static int func2(int[] nums) {
+        int ans = 0;
+        int l = nums.length;
+        TreeSet<Integer> set = new TreeSet<>();
+        for (int i = 0; i < l; i++) {
+            set.add(nums[i]);
+        }
+        int cnt = 0, pre = 0, constant = 1;
+        for (Integer i : set) {
+            if (cnt != 0) {
+                if (i-1 == pre) {
+                    constant += 1;
+                } else {
+                    constant = 1;
+                }
+            }
+            pre = i;
+            ans = Math.max(ans, constant);
+            cnt++;
+        }
+        return ans;
+    }
+
+    /** HashSet 实现O(n) */
+    static int func3(int[] nums) {
+        int ans = 0;
+        int l = nums.length;
+        HashSet<Integer> set = new HashSet<>();
+        HashSet<Integer> visited = new HashSet<>();
+        for (int i = 0; i < l; i++) {  // 去重
+            set.add(nums[i]);
+        }
+        for (Integer i : set) {
+            if (visited.contains(i)) continue;  // 已经遍历过则跳过
+            int tmp = 1;
+            visited.add(i);
+            for (int j = 1; set.contains(i+j); j++) {  // 查找是否包含向后的连续值
+                visited.add(i+j);
+                tmp++;
+            }
+            for (int j = 1; set.contains(i-j); j++) {  // 查找是否包含向前的连续值
+                visited.add(i-j);
+                tmp++;
+            }
+            ans = Math.max(ans, tmp);
         }
         return ans;
     }

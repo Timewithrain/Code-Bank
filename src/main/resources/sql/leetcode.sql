@@ -145,6 +145,26 @@ left join (select country, date_format(trans_date, '%Y-%m') m, count(id) cnt, su
            from Transactions where state='approved' group by m, country) tapv
 on tall.country=tapv.country and tall.m=tapv.m;
 
+-- 2356. 每位教师所教授的科目种类的数量
+select teacher_id, count(distinct subject_id) cnt
+from Teacher
+group by teacher_id;
+
+-- 1141. 查询近30天活跃用户数
+select activity_date day, count(distinct user_id) active_users
+from Activity
+where timestampdiff(day, activity_date, '2019-07-27') < 30
+and timestampdiff(day, activity_date, '2019-07-27') >= 0
+group by activity_date;
+
+-- 1084. 销售分析III
+select p.product_id, product_name
+from Product p inner join Sales s on p.product_id=s.product_id
+where p.product_id not in
+      (select product_id
+         from Sales
+         where sale_date < '2019-01-01' or sale_date > '2019-03-31');
+
 
 
 
