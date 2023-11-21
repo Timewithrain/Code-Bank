@@ -165,6 +165,36 @@ where p.product_id not in
          from Sales
          where sale_date < '2019-01-01' or sale_date > '2019-03-31');
 
+-- 596. 超过5名学生的课
+select class from Courses
+group by class having count(student) >= 5;
+
+-- 1729. 求关注者的数量
+select user_id, count(follower_id) followers_count
+from Followers
+group by user_id order by user_id;
+
+-- 1174. 即时食物配送II
+-- 首次配送
+select customer_id, min(order_date) date
+from Delivery
+group by customer_id having min(order_date)
+-- 即时配送
+select customer_id, order_date date
+from Delivery
+where order_date=customer_pref_delivery_date
+-- 联合首次和即时，查询首次即为即时配送的订单数量，除以总的首次订单数量
+select round(100 * (a.cnt / b.cnt), 2) immediate_percentage
+from (select count(a1.customer_id) cnt
+      from (select customer_id, min(order_date) date
+            from Delivery
+            group by customer_id having min(order_date)) a1
+      inner join (select customer_id, order_date date
+                  from Delivery
+                  where order_date=customer_pref_delivery_date) a2
+      on a1.customer_id=a2.customer_id and a1.date=a2.date) a,
+     (select count(distinct customer_id) cnt from Delivery) b;
+
 
 
 
