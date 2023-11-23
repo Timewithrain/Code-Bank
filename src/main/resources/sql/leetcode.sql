@@ -195,6 +195,21 @@ from (select count(a1.customer_id) cnt
       on a1.customer_id=a2.customer_id and a1.date=a2.date) a,
      (select count(distinct customer_id) cnt from Delivery) b;
 
+-- 619. 只出现一次的最大数字
+select max(t.num) as num
+from (select num
+      from MyNumbers
+      group by num
+      having count(num)=1) t;
+
+-- 1731. 每位经理的下属员工数量
+select a.employee_id, a.name, count(b.employee_id) reports_count, round(avg(b.age), 2) average_age
+from Employees a right join Employees b on a.employee_id=b.reports_to
+where a.employee_id is not null
+group by a.employee_id
+having count(b.employee_id) > 0
+order by a.employee_id;
+
 
 
 
