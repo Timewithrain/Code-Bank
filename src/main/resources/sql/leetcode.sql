@@ -210,6 +210,20 @@ group by a.employee_id
 having count(b.employee_id) > 0
 order by a.employee_id;
 
+-- 610. 判断三角形
+select x, y, z,
+case
+    when x+y>z and x-y<z and x+z>y then 'Yes'
+    else 'No'
+end as triangle
+from Triangle;
+
+-- 180. 连续出现的数字
+select distinct a.num ConsecutiveNums
+from Logs a inner join Logs b on a.num=b.num and a.id=b.id+1
+    inner join Logs c on a.num=c.num and a.id=c.id+2;
+
+
 
 
 
