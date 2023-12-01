@@ -223,6 +223,24 @@ select distinct a.num ConsecutiveNums
 from Logs a inner join Logs b on a.num=b.num and a.id=b.id+1
     inner join Logs c on a.num=c.num and a.id=c.id+2;
 
+-- 626. 换座位
+select e.id, e.student
+from (select a.id id, ifnull(b.student, a.student) student
+      from (select id, student from Seat where id%2=1) a left join
+           (select id, student from Seat where id%2=0) b on a.id+1=b.id
+      union
+      select d.id id, c.student student
+      from (select id, student from Seat where id%2=1) c inner join
+           (select id, student from Seat where id%2=0) d on c.id+1=d.id) e
+order by id;
+-- case when语句实现
+select (case
+        when id%2=1 and id!=s.cnt then id+1  --奇数id+1
+        when id%2=1 and id=s.cnt then id  --最末的奇数，id不变
+        when id%2=0 then id-1  --偶数id-1
+        end) id, student
+from Seat, (select count(*) cnt from Seat) s
+order by id;
 
 
 
