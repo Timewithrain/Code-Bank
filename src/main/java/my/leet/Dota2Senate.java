@@ -2,6 +2,7 @@ package my.leet;
 
 import java.util.LinkedList;
 
+/** 649. Dota2参议院 */
 public class Dota2Senate {
 
     static String func(String senate) {
