@@ -3,6 +3,7 @@ package my.leet;
 import java.util.ArrayList;
 import java.util.List;
 
+/** 1431. 拥有最多糖果的孩子 */
 public class KidsWithTheGreatestNumberOfCandies {
 
     static List<Boolean> func(int[] candies, int extraCandies) {
